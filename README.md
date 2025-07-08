@@ -48,3 +48,7 @@
 ## Site currently live at:
 
 https://collinorendorff.github.io/se_project_spots
+
+## Stage 2 Video Link:
+
+https://drive.google.com/file/d/1OAw9bqzUXQNnDgVzEJScn_bQVSsbjJf5/view?usp=sharing
