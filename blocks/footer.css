@@ -1,0 +1,15 @@
+.footer {
+    display: flex;
+    padding: 60px 0;
+}
+
+.footer__text {
+    margin: 0 auto;
+    font-family: "Poppins 400", Arial, sans-serif;
+    font-weight: 400;
+    font-style: medium;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: rgba(33, 33, 33, 0.7);
+}

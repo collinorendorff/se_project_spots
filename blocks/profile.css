@@ -1,7 +1,148 @@
 .profile {
     display: flex;
+    padding-top: 34px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(33, 33, 33, 0.4);
+}
+
+.profile__pfp {
+    padding-right: 20px;
+    height: 190px;
+    width: 190px;
+}
+
+.profile__column {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__name {
+    margin: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 500;
+    font-style: medium;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: 0;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-width: 420px;
+}
+
+.profile__description {
+    margin: 0;
+    padding-top: 12px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 500;
+    font-style: medium;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: rgba(33, 33, 33, 0.7);
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;    
+    max-width: 420px;
+}
+
+.profile__edit-button {
+    margin-top: auto;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 500;
+    font-style: medium;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: rgba(33, 33, 33, 0.7);
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    width: 107.34px;
+}
+
+.profile__edit-icon {
+    opacity: 0.7;
+    padding-right: 8px;
+}
+
+.profile__edit-button:hover {
+    color: rgba(33, 33, 33, 1);
+    cursor: pointer;
+
+    .profile__edit-icon {
+        opacity: 1;
+    }
 }
 
 .profile__plus-button {
     margin-left: auto;
+    margin-top: auto;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 500;
+    font-style: medium;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    border-radius: 8px;
+    height: 52px;
+    width: 149px;
+    padding: 18px 32px 18px 24px;
+    border: none;
+    background-color: rgb(33, 33, 33);
+    color: rgb(252, 245, 229);
+    white-space: nowrap;
+}
+
+.profile__plus-button:hover {
+    background-color: rgba(33, 33, 33, 0.7);
+    cursor: pointer;
+}
+
+.profile__plus-icon {
+    padding-right: 8px;
+}
+
+@media screen and (max-width: 630px) {
+    .profile {
+        flex-direction: column;
+        padding-top: 20px;
+        width: 288px;
+    }
+
+    .profile__pfp {
+        padding: 0 0 12px;
+        height: 80px;
+        width: 80px;
+        margin: 0 auto;
+    }
+
+    .profile__column {
+        align-items: center;
+    }
+
+    .profile__name {
+        font-size: 20px;
+        max-width: 288px;
+        text-align: center;
+    }
+
+    .profile__description {
+        padding-top: 6px;
+        max-width: 288px;
+        text-align: center;
+    }
+
+    .profile__edit-button {
+        margin-top: 32px;
+    }
+
+    .profile__plus-button {
+        margin: 20px auto 0;
+        width: 100%;
+    }
 }
