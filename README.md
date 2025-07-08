@@ -1,22 +1,21 @@
 # Project 3: Spots
 
-### Overview  
+## Overview  
 
-* Intro  
-* Figma  
-* Images  
-  
-**Intro**
-  
-This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.  
-  
-**Figma**  
-  
-* [Link to the project on Figma](https://www.figma.com/file/BBNm2bC3lj8QQMHlnqRsga/Sprint-3-Project-%E2%80%94-Spots?type=design&node-id=2%3A60&mode=design&t=afgNFybdorZO6cQo-1)
-  
-**Images**  
-  
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster. 
-  
-Good luck and have fun!
-Currently deployed to: https://collinorendorff.github.io/se_project_spots
+"Spots" is an editable profile page containing a user's picture, name, description, and a collection of posts.
+
+## Features
+
+* Flexbox and grid area positioning
+* Responsive grid design for smaller computers, tablets, and smartphones
+* Semantic HTML5
+* Flat BEM file structure
+* Currently non-functional buttons with hover state changes
+
+## Relevant pictures of project features:
+
+
+
+#### Site currently live at:
+
+https://collinorendorff.github.io/se_project_spots
