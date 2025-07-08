@@ -10,6 +10,7 @@
 
 * Flexbox and grid area positioning
 * Responsive grid design for smaller computers, tablets, and smartphones
+* Limited line wrapping in editable fields, ending in ellipsis for text too long
 * Semantic HTML5
 * Flat BEM file structure
 * Currently non-functional buttons with hover state changes
