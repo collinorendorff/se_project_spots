@@ -19,31 +19,31 @@
 ## Relevant pictures of project features:
 
 #### Full desktop view:
-![Full desktop view of site](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/fullsize-desktop.png?raw=true "Full desktop view of site")
+![Full desktop view of site](https://drive.google.com/file/d/163eIgejbupa8OxAnPBnzP6zfq7bsDGb2/view?usp=sharing "Full desktop view of site")
 
 #### Smaller desktop/tablet view:
-![Smaller desktop/tablet view of site](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/small-computer-tablet.png?raw=true "Smaller desktop/tablet view of site")
+![Smaller desktop/tablet view of site](https://drive.google.com/file/d/1VZAeNHPtzxUns_lYYoqa90yFn6zvnIwN/view?usp=sharing "Smaller desktop/tablet view of site")
 
 #### Smartphone view:
-![Smartphone view of site](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/smartphone.png?raw=true "Smartphone view of site")
+![Smartphone view of site](https://drive.google.com/file/d/1YiFuNwRRejo7i4qJmLOI-k5ofoyWth3E/view?usp=sharing "Smartphone view of site")
 
 #### Edit Button:
 ##### Unhovered
-![Unhovered edit button](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/edit-unhovered.png?raw=true "Unhovered edit button")
+![Unhovered edit button](https://drive.google.com/file/d/14EJOr3SyscCo6x_uIO1su9imHNnd3SUK/view?usp=sharing "Unhovered edit button")
 ##### Hovered
-![Hovered edit button](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/edit-hovered.PNG?raw=true "Hovered edit button")
+![Hovered edit button](https://drive.google.com/file/d/1ZiiJ_YG0t5IG14vz284ZHfjKQT6A90uc/view?usp=sharing "Hovered edit button")
 
 #### New Post Button:
 ##### Unhovered
-![Unhovered new post button](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/new-post-unhovered.png?raw=true "Unhovered new post button")
+![Unhovered new post button](https://drive.google.com/file/d/1jW_AkXbFIUmNXrS8n5ARuKcL1De_7OMU/view?usp=sharing "Unhovered new post button")
 ##### Hovered
-![Hovered new post button](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/new-post-hovered.png?raw=true "Hovered new post button")
+![Hovered new post button](https://drive.google.com/file/d/1wWlbLdl-2RqfglUNC7w8MiT4uAGCHcCN/view?usp=sharing "Hovered new post button")
 
 #### Like (heart) button:
 ##### Unhovered
-![Unhovered like (heart) button](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/heart-unhovered.png?raw=true "Unhovered like (heart) button")
+![Unhovered like (heart) button](https://drive.google.com/file/d/1B_zToUdJ3PBQPVwS-bLa9l2OgMWxoJ3X/view?usp=sharing "Unhovered like (heart) button")
 ##### Hovered
-![Hovered like (heart) button](https://github.com/collinorendorff/se_project_spots/blob/main/images/readme-images/heart-hovered.PNG?raw=true "Hovered like (heart) button")
+![Hovered like (heart) button](https://drive.google.com/file/d/1bBhYKohMT4Fx0RoIx3jAhFM1LWElSlS4/view?usp=sharing "Hovered like (heart) button")
 
 ## Site currently live at:
 
