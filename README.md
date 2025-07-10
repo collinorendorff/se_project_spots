@@ -19,31 +19,31 @@
 ## Relevant pictures of project features:
 
 #### Full desktop view:
-![Full desktop view of site](https://github.com/collinorendorff/spotsstage2pics/blob/main/fullsize-desktop.png?raw=true "Full desktop view of site")
+![Full desktop view of site](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/fullsize-desktop.png?raw=true "Full desktop view of site")
 
 #### Smaller desktop/tablet view:
-![Smaller desktop/tablet view of site](https://github.com/collinorendorff/spotsstage2pics/blob/main/small-computer-tablet.png?raw=true "Smaller desktop/tablet view of site")
+![Smaller desktop/tablet view of site](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/small-computer-tablet.png?raw=true "Smaller desktop/tablet view of site")
 
 #### Smartphone view:
-![Smartphone view of site](https://github.com/collinorendorff/spotsstage2pics/blob/main/smartphone.png?raw=true "Smartphone view of site")
+![Smartphone view of site](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/smartphone.png?raw=true "Smartphone view of site")
 
 #### Edit Button:
 ##### Unhovered
-![Unhovered edit button](https://github.com/collinorendorff/spotsstage2pics/blob/main/edit-unhovered.png?raw=true "Unhovered edit button")
+![Unhovered edit button](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/edit-unhovered.png?raw=true "Unhovered edit button")
 ##### Hovered
-![Hovered edit button](https://github.com/collinorendorff/spotsstage2pics/blob/main/edit-hovered.PNG?raw=true "Hovered edit button")
+![Hovered edit button](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/edit-hovered.PNG?raw=true "Hovered edit button")
 
 #### New Post Button:
 ##### Unhovered
-![Unhovered new post button](https://github.com/collinorendorff/spotsstage2pics/blob/main/new-post-unhovered.png?raw=true "Unhovered new post button")
+![Unhovered new post button](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/new-post-unhovered.png?raw=true "Unhovered new post button")
 ##### Hovered
-![Hovered new post button](https://github.com/collinorendorff/spotsstage2pics/blob/main/new-post-hovered.png?raw=true "Hovered new post button")
+![Hovered new post button](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/new-post-hovered.png?raw=true "Hovered new post button")
 
 #### Like (heart) button:
 ##### Unhovered
-![Unhovered like (heart) button](https://github.com/collinorendorff/spotsstage2pics/blob/main/heart-unhovered.png?raw=true "Unhovered like (heart) button")
+![Unhovered like (heart) button](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/heart-unhovered.png?raw=true "Unhovered like (heart) button")
 ##### Hovered
-![Hovered like (heart) button](https://github.com/collinorendorff/spotsstage2pics/blob/main/heart-hovered.PNG?raw=true "Hovered like (heart) button")
+![Hovered like (heart) button](https://github.com/collinorendorff/tripleTenPics/blob/main/spotsStage2/heart-hovered.PNG?raw=true "Hovered like (heart) button")
 
 ## Site currently live at:
 
