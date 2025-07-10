@@ -91,7 +91,7 @@
             <footer class="footer page__section">
                 <p class="footer__text">2025 &copy; Spots</p>
             </footer>
-            <div class="modal modal_is-opened">
+            <div class="modal">
                 <div class="modal__container">
                     <button type="button" class="modal__close-button">
                         <img src="./images/close-icon.svg" alt="Close Button" class="modal__close-icon">
@@ -112,6 +112,33 @@
                             class="modal__input" 
                             id="profile-description"
                             placeholder="Describe yourself"
+                            >
+                        </label>
+                        <button type="submit" class="modal__save-button">Save</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal modal_is-opened">
+                <div class="modal__container">
+                    <button type="button" class="modal__close-button">
+                        <img src="./images/close-icon.svg" alt="Close Button" class="modal__close-icon">
+                    </button>
+                    <h2 class="modal__title">New post</h2>
+                    <form class="modal__form">
+                        <label for="image-link" class="modal__label">
+                            Image link
+                            <input type="url" 
+                            class="modal__input" 
+                            id="image-link"
+                            placeholder="Paste a link to the picture"
+                            >
+                        </label>
+                        <label for="caption-input" class="modal__label">
+                            Caption
+                            <input type="text" 
+                            class="modal__input" 
+                            id="caption-input"
+                            placeholder="Type your caption"
                             >
                         </label>
                         <button type="submit" class="modal__save-button">Save</button>
