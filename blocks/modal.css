@@ -1,5 +1,4 @@
 .modal {
-    visibility: hidden;
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
@@ -11,7 +10,8 @@
     align-items: center;
     opacity: 0;
     /*this line below smoothly transitions the modals in and out of view*/
-    transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+    transition: visibility 0s linear 0.5s, opacity 0.5s linear;    
+    visibility: hidden;
 }
 
 .modal_is-opened {
