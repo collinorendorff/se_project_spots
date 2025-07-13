@@ -3,12 +3,12 @@ const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(".modal__close-button");
 
-editProfileBtn.addEventListener("click", function () {
-    editProfileModal.classList.toggle("modal_is-opened");
+editProfileBtn.addEventListener("click", () => {
+    toggleVisibility(editProfileModal);
 });
 
-editProfileCloseBtn.addEventListener("click", function () {
-    editProfileModal.classList.toggle("modal_is-opened");
+editProfileCloseBtn.addEventListener("click", () => {
+    toggleVisibility(editProfileModal);
     //these 2 lines ensure changes to fields aren't saved if X is pressed
     profileNameInput.value = currentProfileName.textContent;
     profileDescriptionInput.value = currentProfileDescription.textContent;
@@ -19,12 +19,12 @@ const newPostBtn = document.querySelector(".profile__plus-button");
 const newPostModal = document.querySelector("#new-post-modal");
 const newPostCloseBtn = newPostModal.querySelector(".modal__close-button");
 
-newPostBtn.addEventListener("click", function () {
-    newPostModal.classList.toggle("modal_is-opened");
+newPostBtn.addEventListener("click", () => {
+    toggleVisibility(newPostModal);
 });
 
-newPostCloseBtn.addEventListener("click", function () {
-    newPostModal.classList.toggle("modal_is-opened");
+newPostCloseBtn.addEventListener("click", () => {
+    toggleVisibility(newPostModal);
 });
 /*------------------------------------------------*/
 //Filling form modals when opening "edit profile" modal
@@ -45,7 +45,7 @@ function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     currentProfileName.textContent = profileNameInput.value;
     currentProfileDescription.textContent = profileDescriptionInput.value;
-    editProfileModal.classList.toggle("modal_is-opened");
+    toggleVisibility(editProfileModal);
 }
 
 editProfileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -60,9 +60,14 @@ function handleNewPostSubmit(evt) {
 
     console.log(linkInput.value);
     console.log(captionInput.value);
-    newPostModal.classList.toggle("modal_is-opened");
+    toggleVisibility(newPostModal);
 
     evt.target.reset();
 }
 
 newPostForm.addEventListener('submit', handleNewPostSubmit);
+
+//function for toggling visibility of modals above
+function toggleVisibility(modal) {
+    modal.classList.toggle("modal_is-opened");
+}
