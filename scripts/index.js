@@ -4,11 +4,11 @@ const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(".modal__close-button");
 
 editProfileBtn.addEventListener("click", () => {
-    toggleVisibility(editProfileModal);
+    openModal(editProfileModal);
 });
 
 editProfileCloseBtn.addEventListener("click", () => {
-    toggleVisibility(editProfileModal);
+    closeModal(editProfileModal);
     //these 2 lines ensure changes to fields aren't saved if X is pressed
     profileNameInput.value = currentProfileName.textContent;
     profileDescriptionInput.value = currentProfileDescription.textContent;
@@ -20,11 +20,11 @@ const newPostModal = document.querySelector("#new-post-modal");
 const newPostCloseBtn = newPostModal.querySelector(".modal__close-button");
 
 newPostBtn.addEventListener("click", () => {
-    toggleVisibility(newPostModal);
+    openModal(newPostModal);
 });
 
 newPostCloseBtn.addEventListener("click", () => {
-    toggleVisibility(newPostModal);
+    closeModal(newPostModal);
 });
 /*------------------------------------------------*/
 //Filling form modals when opening "edit profile" modal
@@ -45,7 +45,7 @@ function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     currentProfileName.textContent = profileNameInput.value;
     currentProfileDescription.textContent = profileDescriptionInput.value;
-    toggleVisibility(editProfileModal);
+    closeModal(editProfileModal);
 }
 
 editProfileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -60,14 +60,18 @@ function handleNewPostSubmit(evt) {
 
     console.log(linkInput.value);
     console.log(captionInput.value);
-    toggleVisibility(newPostModal);
+    closeModal(newPostModal);
 
     evt.target.reset();
 }
 
 newPostForm.addEventListener('submit', handleNewPostSubmit);
 
-//function for toggling visibility of modals above
-function toggleVisibility(modal) {
-    modal.classList.toggle("modal_is-opened");
+//functions for changing visibility (opening/closing) of modals above
+function openModal(modal) {
+    modal.classList.add("modal_is-opened");
+}
+
+function closeModal(modal) {
+    modal.classList.remove("modal_is-opened");
 }
