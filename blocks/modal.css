@@ -218,7 +218,7 @@
     }
 
     .modal__close-button_type_preview {
-    top: -48px;
-    right: 0;
+        top: -48px;
+        right: 0;
     }
 }
