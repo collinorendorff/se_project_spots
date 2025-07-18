@@ -24,6 +24,10 @@ const initialCards = [
         name: 'Mountain house',
         link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg'
     },
+    {
+        name: 'Golden Gate Bridge',
+        link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg'
+    },
 ];
 //Selecting the card template and cards container
 const cardTemplate = document.querySelector("#card-template").content.querySelector(".card");
@@ -131,5 +135,33 @@ function getCardElement(data) {
     const cardTitle = cardElement.querySelector(".card__title");
     cardTitle.textContent = data.name;
 
+    //event listener to change heart button when clicked
+    const cardHeartIcon = cardElement.querySelector(".card__heart-icon");
+    cardHeartIcon.addEventListener('click', () => {
+        if (!cardHeartIcon.classList.contains("card__heart-icon_liked")) {
+            cardHeartIcon.src = './images/heart-liked.svg';
+        } else {
+            cardHeartIcon.src = "./images/heart-default.svg";
+        }
+        cardHeartIcon.classList.toggle("card__heart-icon_liked");
+    });
+
+    //event listeners for delete button: changing delete icon on hover and 
+    //deleting card upon clicking
+    const cardBinIcon = cardElement.querySelector(".card__bin-icon");
+    cardBinIcon.addEventListener('mouseover', () => {
+        cardBinIcon.src = "./images/bin-hovered.svg";
+    });
+
+    cardBinIcon.addEventListener('mouseout', () => {
+        cardBinIcon.src = "./images/bin-default.svg";
+    });
+
+    cardBinIcon.addEventListener('click', () => {
+        cardElement.remove();
+    });
+
     return cardElement;
 }
+
+//Delete Button for posts
