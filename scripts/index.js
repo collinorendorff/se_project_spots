@@ -25,6 +25,10 @@ const initialCards = [
         link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg'
     },
 ];
+//Selecting the card template and cards container
+const cardTemplate = document.querySelector("#card-template").content.querySelector(".card");
+const cardsContainer = document.querySelector(".cards__pics");
+
 // "Edit Profile" modal selections and class editing
 const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-profile-modal");
@@ -84,9 +88,17 @@ const captionInput = document.querySelector('#caption-input');
 
 function handleNewPostSubmit(evt) {
     evt.preventDefault();
+    
+    //making object containing inputted values and inserting new object into
+    //getCardElement() function
+    let cardData = {
+        name: captionInput.value,
+        link: linkInput.value,
+    };
 
-    console.log(linkInput.value);
-    console.log(captionInput.value);
+    let cardToInsert = getCardElement(cardData);
+    cardsContainer.prepend(cardToInsert);
+
     closeModal(newPostModal);
 
     evt.target.reset();
@@ -102,7 +114,22 @@ function openModal(modal) {
 function closeModal(modal) {
     modal.classList.remove("modal_is-opened");
 }
-//Looping through array of cards "initialCards"
+
+//Looping through array of cards "initialCards" and populating container of cards
 initialCards.forEach(function (card) {
-    console.log(card.name);
+    let cardToInsert = getCardElement(card);
+    cardsContainer.prepend(cardToInsert);
 });
+
+//Generating cards from the template
+function getCardElement(data) {
+    const cardElement = cardTemplate.cloneNode(true);
+    const cardImg = cardElement.querySelector(".card__image");
+    cardImg.src = data.link;
+    cardImg.alt = data.name;
+
+    const cardTitle = cardElement.querySelector(".card__title");
+    cardTitle.textContent = data.name;
+
+    return cardElement;
+}
