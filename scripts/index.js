@@ -29,9 +29,6 @@ const initialCards = [
         link: 'https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg'
     },
 ];
-//Selecting the card template and cards container
-const cardTemplate = document.querySelector("#card-template").content.querySelector(".card");
-const cardsContainer = document.querySelector(".cards__pics");
 
 // "Edit Profile" modal selections and class editing
 const editProfileBtn = document.querySelector(".profile__edit-button");
@@ -119,6 +116,15 @@ function closeModal(modal) {
     modal.classList.remove("modal_is-opened");
 }
 
+//Selecting the card template and cards container
+const cardTemplate = document.querySelector("#card-template").content.querySelector(".card");
+const cardsContainer = document.querySelector(".cards__pics");
+
+//Selecting preview modal and its elements
+const previewModal = document.querySelector("#preview-image-modal");
+const previewImg = previewModal.querySelector(".modal__image");
+const previewCaption = previewModal.querySelector(".modal__preview-caption");
+
 //Looping through array of cards "initialCards" and populating container of cards
 initialCards.forEach(function (card) {
     let cardToInsert = getCardElement(card);
@@ -127,13 +133,21 @@ initialCards.forEach(function (card) {
 
 //Generating cards from the template
 function getCardElement(data) {
+    //Selecting cloned card's image and caption and setting them
     const cardElement = cardTemplate.cloneNode(true);
     const cardImg = cardElement.querySelector(".card__image");
     cardImg.src = data.link;
     cardImg.alt = data.name;
-
     const cardTitle = cardElement.querySelector(".card__title");
     cardTitle.textContent = data.name;
+
+    cardImg.addEventListener('click', () => {
+        previewImg.src = cardImg.src;
+        previewImg.alt = cardImg.alt;
+        previewCaption.textContent = cardTitle.textContent;
+        openModal(previewModal);
+    });
+    
 
     //event listener to change heart button when clicked
     const cardHeartIcon = cardElement.querySelector(".card__heart-icon");
@@ -164,4 +178,8 @@ function getCardElement(data) {
     return cardElement;
 }
 
-//Delete Button for posts
+//Adding event listener to close button on preview modal
+const previewCloseBtn = previewModal.querySelector(".modal__close-button_type_preview");
+previewCloseBtn.addEventListener('click', () => {
+    closeModal(previewModal);
+})

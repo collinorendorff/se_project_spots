@@ -122,6 +122,46 @@
     cursor: pointer;
 }
 
+.modal__preview-container {
+    position: relative;
+    font-size: 0;
+}
+
+.modal__image {
+    border-radius: 8px;
+    max-width: 80vw;
+    max-height: 80vh;
+    width: 100%;
+}
+
+.modal__preview-caption {
+    margin: 8px 0 0 0;
+    color: white;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 500;
+    font-style: medium;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    background-color: rgba(33, 33, 33, 1);
+    width: fit-content;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.modal__close-button_type_preview {
+    top: 0;
+    right: -52.5px;
+}
+
+.modal__close-icon_type_preview {
+    opacity: 1;
+}
+
+.modal__close-icon_type_preview:hover {
+    opacity: 0.4;
+}
+
 @media screen and (max-width: 630px) {
     .modal__container {
         max-width: 276px;
@@ -163,5 +203,22 @@
     .modal__save-button {
         max-width: 276px;
         align-self: center;
+    }
+
+    .modal_type_preview {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal__image {
+        max-width: 288px;
+    }
+
+    .modal__preview-caption {
+        font-size: 16px;
+    }
+
+    .modal__close-button_type_preview {
+    top: -48px;
+    right: 0;
     }
 }
