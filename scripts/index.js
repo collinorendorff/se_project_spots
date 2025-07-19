@@ -30,11 +30,13 @@ const initialCards = [
     },
 ];
 
-// "Edit Profile" modal selections and class editing
+// "Edit Profile" modal selections
 const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(".modal__close-button");
+const editProfileIcon = document.querySelector(".profile__edit-icon");
 
+//edit profile modal close button functionality
 editProfileBtn.addEventListener("click", () => {
     openModal(editProfileModal);
 });
@@ -45,6 +47,7 @@ editProfileCloseBtn.addEventListener("click", () => {
     profileNameInput.value = currentProfileName.textContent;
     profileDescriptionInput.value = currentProfileDescription.textContent;
 });
+
 /*------------------------------------------------*/
 // "New Post" modal selections and class editing
 const newPostBtn = document.querySelector(".profile__plus-button");

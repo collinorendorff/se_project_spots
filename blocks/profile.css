@@ -73,10 +73,10 @@
 .profile__edit-button:hover {
     color: rgba(33, 33, 33, 1);
     cursor: pointer;
+}
 
-    .profile__edit-icon {
-        opacity: 1;
-    }
+.profile__edit-button:hover .profile__edit-icon {
+    opacity: 1;
 }
 
 .profile__plus-button {
