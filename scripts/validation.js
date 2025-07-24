@@ -6,6 +6,7 @@ const selectors = {
   submitButtonSelector: ".modal__save-button",
   inactiveButtonClass: "modal__save-button_disabled",
   inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible"
 }
 
 //makes visible (by adding text) an error <span> element corresponding to a specific field
@@ -14,6 +15,7 @@ function showInputError(formElement, inputElement, message, selectors) {
     const errorSpanId = "#" + inputElement.id + "-error";
     const errorSpanElement = formElement.querySelector(errorSpanId);
     errorSpanElement.textContent = message;
+    errorSpanElement.classList.add(selectors.errorClass);
     inputElement.classList.add(selectors.inputErrorClass);
 }
 
@@ -22,6 +24,7 @@ function hideInputError(formElement, inputElement, selectors) {
     const errorSpanId = "#" + inputElement.id + "-error";
     const errorSpanElement = formElement.querySelector(errorSpanId);
     errorSpanElement.textContent = "";
+    errorSpanElement.classList.remove(selectors.errorClass);
     inputElement.classList.remove(selectors.inputErrorClass);
 }
 

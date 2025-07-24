@@ -110,6 +110,7 @@
 }
 
 .modal__error {
+    visibility: hidden;
     display: block;
     color: rgba(255, 0, 0, 0.7);
     font-family: "Poppins", Arial, sans-serif;
@@ -123,6 +124,10 @@
 
 .modal__error:empty {
     display: inline;
+}
+
+.modal__error_visible {
+    visibility: visible;
 }
 
 .modal__save-button {
