@@ -57,7 +57,7 @@
                         <img src="./images/close-icon.svg" alt="Close Button" class="modal__close-icon">
                     </button>
                     <h2 class="modal__title">Edit profile</h2>
-                    <form class="modal__form" id="edit-profile-form">
+                    <form class="modal__form" id="edit-profile-form" novalidate>
                         <label for="profile-name" class="modal__label">
                             Name
                             <input type="text" 
@@ -68,7 +68,7 @@
                             minlength="2"
                             maxlength="40"
                             >
-                            <span class="modal__error"></span>
+                            <span class="modal__error" id="profile-name-error"></span>
                         </label>
                         <label for="profile-description" class="modal__label">
                             Description
@@ -80,7 +80,7 @@
                             minlength="2"
                             maxlength="200"
                             >
-                            <span class="modal__error"></span>
+                            <span class="modal__error" id="profile-description-error"></span>
                         </label>
                         <button type="submit" class="modal__save-button">Save</button>
                     </form>
@@ -92,7 +92,7 @@
                         <img src="./images/close-icon.svg" alt="Close Button" class="modal__close-icon">
                     </button>
                     <h2 class="modal__title">New post</h2>
-                    <form class="modal__form" id="new-post-form">
+                    <form class="modal__form" id="new-post-form" novalidate>
                         <label for="image-link" class="modal__label">
                             Image link
                             <input type="url" 
@@ -101,7 +101,7 @@
                             placeholder="Paste a link to the picture"
                             required
                             >
-                            <span class="modal__error"></span>
+                            <span class="modal__error" id="image-link-error"></span>
                         </label>
                         <label for="caption-input" class="modal__label">
                             Caption
@@ -113,7 +113,7 @@
                             minlength="2"
                             maxlength="30"
                             >
-                            <span class="modal__error"></span>
+                            <span class="modal__error" id="caption-input-error"></span>
                         </label>
                         <button type="submit" class="modal__save-button">Save</button>
                     </form>
@@ -129,6 +129,7 @@
                 </div>
             </div>
         </div>
-        <script src="./scripts/index.js"></script>
+        <script src="./scripts/validation.js" defer></script>
+        <script src="./scripts/index.js" defer></script>
     </body>
 </html>
