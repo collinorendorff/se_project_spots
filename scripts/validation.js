@@ -1,6 +1,6 @@
 // Declaring a configuration object that contains the
 // necessary classes and selectors. 
-const selectors = {
+export const selectors = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__save-button",
@@ -79,12 +79,9 @@ function setEventListeners(formElement, selectors) {
 }
 
 //calls setEventListeners on all modal__form elements
-function enableValidation(selectors) {
+export function enableValidation(selectors) {
     const formList = document.querySelectorAll(selectors.formSelector);
     formList.forEach(formElement => {
         setEventListeners(formElement, selectors);
     });
 }
-
-//runs nested validation functions
-enableValidation(selectors);

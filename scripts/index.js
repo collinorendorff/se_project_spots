@@ -1,3 +1,5 @@
+import { enableValidation, selectors } from "./validation.js";
+
 //Array for storing "card" objects and their data
 const initialCards = [
     {
@@ -235,3 +237,5 @@ function escapeToClose(evt) {
         }
     }
 }
+
+enableValidation(selectors);
