@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Profile for Bessie Coleman" />
+    <meta name="author" content="Collin Orendorff" />
+    <meta name="keywords" content="spots HTML CSS grid flexbox profile post" />
+    <title>Spots</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <img
+          src="<%=require('./images/logo.svg')%>"
+          alt="Spots Logo"
+          class="header__logo"
+        />
+      </header>
+      <main class="content">
+        <div class="profile page__section">
+          <img
+            src="<%=require('./images/bessie.svg')%>"
+            alt="Portrait of Bessie Coleman"
+            class="profile__pfp"
+          />
+          <div class="profile__column">
+            <h1 class="profile__name">Bessie Coleman</h1>
+            <p class="profile__description">Civil Aviator</p>
+            <button type="button" class="profile__edit-button">
+              <img
+                src="<%=require('./images/edit-button.svg')%>"
+                alt="Edit Icon"
+                class="profile__edit-icon"
+              />Edit Profile
+            </button>
+          </div>
+          <button type="button" class="profile__plus-button">
+            <img
+              src="<%=require('./images/plus-icon.svg')%>"
+              alt="New Post Icon"
+              class="profile__plus-icon"
+            />New Post
+          </button>
+        </div>
+        <div class="cards page__section">
+          <ul class="cards__pics">
+            <template id="card-template">
+              <li class="card">
+                <img src="" alt="" class="card__image" />
+                <div class="card__content">
+                  <h2 class="card__title"></h2>
+                  <button type="button" class="card__heart-button">
+                    <img
+                      src="<%=require('./images/heart-default.svg')%>"
+                      alt="Like Button"
+                      class="card__heart-icon"
+                    />
+                  </button>
+                </div>
+                <button type="button" class="card__delete-button">
+                  <img
+                    src="<%=require('./images/bin-default.svg')%>"
+                    alt="Delete Button"
+                    class="card__bin-icon"
+                  />
+                </button>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </main>
+      <footer class="footer page__section">
+        <p class="footer__text">2026 &copy; Spots</p>
+      </footer>
+      <div class="modal" id="edit-profile-modal">
+        <div class="modal__container">
+          <button type="button" class="modal__close-button">
+            <img
+              src="<%=require('./images/close-icon.svg')%>"
+              alt="Close Button"
+              class="modal__close-icon"
+            />
+          </button>
+          <h2 class="modal__title">Edit profile</h2>
+          <form class="modal__form" id="edit-profile-form" novalidate>
+            <label for="profile-name" class="modal__label">
+              Name
+              <input
+                type="text"
+                class="modal__input"
+                id="profile-name"
+                placeholder="Type your name"
+                required
+                minlength="2"
+                maxlength="40"
+              />
+              <span class="modal__error" id="profile-name-error"></span>
+            </label>
+            <label for="profile-description" class="modal__label">
+              Description
+              <input
+                type="text"
+                class="modal__input"
+                id="profile-description"
+                placeholder="Describe yourself"
+                required
+                minlength="2"
+                maxlength="200"
+              />
+              <span class="modal__error" id="profile-description-error"></span>
+            </label>
+            <button type="submit" class="modal__save-button">Save</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal" id="new-post-modal">
+        <div class="modal__container">
+          <button type="button" class="modal__close-button">
+            <img
+              src="<%=require('./images/close-icon.svg')%>"
+              alt="Close Button"
+              class="modal__close-icon"
+            />
+          </button>
+          <h2 class="modal__title">New post</h2>
+          <form class="modal__form" id="new-post-form" novalidate>
+            <label for="image-link" class="modal__label">
+              Image link
+              <input
+                type="url"
+                class="modal__input"
+                id="image-link"
+                placeholder="Paste a link to the picture"
+                required
+              />
+              <span class="modal__error" id="image-link-error"></span>
+            </label>
+            <label for="caption-input" class="modal__label">
+              Caption
+              <input
+                type="text"
+                class="modal__input"
+                id="caption-input"
+                placeholder="Type your caption"
+                required
+                minlength="2"
+                maxlength="30"
+              />
+              <span class="modal__error" id="caption-input-error"></span>
+            </label>
+            <button type="submit" class="modal__save-button">Save</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal modal_type_preview" id="preview-image-modal">
+        <div class="modal__preview-container">
+          <img
+            src="#"
+            alt="To-be preview of clicked image"
+            class="modal__image"
+          />
+          <p class="modal__preview-caption"></p>
+          <button
+            type="button"
+            class="modal__close-button modal__close-button_type_preview"
+          >
+            <img
+              src="<%=require('./images/preview-close-icon.svg')%>"
+              alt="Close Button"
+              class="modal__close-icon modal__close-icon_type_preview"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
