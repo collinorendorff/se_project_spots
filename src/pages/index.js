@@ -47,8 +47,8 @@ const api = new Api({
 });
 
 api
-  .getInitialCards()
-  .then((cards) => {
+  .getAppInfo()
+  .then(([cards]) => {
     cards.forEach(function (card) {
       let cardToInsert = getCardElement(card);
       cardsContainer.prepend(cardToInsert);
