@@ -4,7 +4,7 @@ import heartLiked from "../images/heart-liked.svg";
 import heartDefault from "../images/heart-default.svg";
 import binHovered from "../images/bin-hovered.svg";
 import binDefault from "../images/bin-default.svg";
-import Api from "../scripts/Api.js";
+import Api from "../utils/Api.js";
 
 //Array for storing "card" objects and their data
 // const initialCards = [
@@ -46,12 +46,17 @@ const api = new Api({
   },
 });
 
-api.getInitialCards().then((cards) => {
-  cards.forEach(function (card) {
-    let cardToInsert = getCardElement(card);
-    cardsContainer.prepend(cardToInsert);
+api
+  .getInitialCards()
+  .then((cards) => {
+    cards.forEach(function (card) {
+      let cardToInsert = getCardElement(card);
+      cardsContainer.prepend(cardToInsert);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-});
 
 // "Edit Profile" modal selections
 const editProfileBtn = document.querySelector(".profile__edit-button");
