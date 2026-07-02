@@ -6,37 +6,12 @@ import binHovered from "../images/bin-hovered.svg";
 import binDefault from "../images/bin-default.svg";
 import Api from "../utils/Api.js";
 
-//Array for storing "card" objects and their data
-// const initialCards = [
-//   {
-//     name: "Val Thorens",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
-//   },
-//   {
-//     name: "Restaurant terrace",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
-//   },
-//   {
-//     name: "An outdoor cafe",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
-//   },
-//   {
-//     name: "A very long bridge, over the forest and through the trees",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
-//   },
-//   {
-//     name: "Tunnel with morning light",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
-//   },
-//   {
-//     name: "Mountain house",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
-//   },
-//   {
-//     name: "Golden Gate Bridge",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
-//   },
-// ];
+const cardsContainer = document.querySelector(".cards__pics");
+const currentProfileName = document.querySelector(".profile__name");
+const currentProfileDescription = document.querySelector(
+  ".profile__description",
+);
+const currentPfp = document.querySelector(".profile__pfp");
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -48,11 +23,15 @@ const api = new Api({
 
 api
   .getAppInfo()
-  .then(([cards]) => {
+  .then(([cards, userInfo]) => {
     cards.forEach(function (card) {
       let cardToInsert = getCardElement(card);
       cardsContainer.prepend(cardToInsert);
     });
+
+    currentProfileName.textContent = userInfo["name"];
+    currentProfileDescription.textContent = userInfo["about"];
+    currentPfp.src = userInfo["avatar"];
   })
   .catch((err) => {
     console.error(err);
@@ -80,7 +59,7 @@ editProfileBtn.addEventListener("click", () => {
   openModal(editProfileModal);
   //function below is declared in validation.js; this is put to ensure button is enabled
   //upon opening (since validation file is loaded in before this .js file)
-  enableButton(editProfileSubmitButton, selectors);
+  // // enableButton(editProfileSubmitButton, selectors);
   //hideInputError() declared in validation.js
   //these calls are used to get rid of error messages from prior non-submitted inputs since
   //values of these input fields are reset to match current profile upon closing with "X"
@@ -114,10 +93,10 @@ newPostCloseBtn.addEventListener("click", () => {
 /*------------------------------------------------*/
 //Filling form modals when opening "edit profile" modal
 //Selecting text content currently in profile
-const currentProfileName = document.querySelector(".profile__name");
-const currentProfileDescription = document.querySelector(
-  ".profile__description",
-);
+// const currentProfileName = document.querySelector(".profile__name");
+// const currentProfileDescription = document.querySelector(
+//   ".profile__description",
+// );
 //Setting value of input fields
 function resetEditFormFields() {
   profileNameInput.value = currentProfileName.textContent;
@@ -129,9 +108,24 @@ resetEditFormFields();
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  currentProfileName.textContent = profileNameInput.value;
-  currentProfileDescription.textContent = profileDescriptionInput.value;
-  closeModal(editProfileModal);
+  api
+    .editUserInfo({
+      name: profileNameInput.value,
+      about: profileDescriptionInput.value,
+    })
+    .then((data) => {
+      currentProfileName.textContent = data["name"];
+      currentProfileDescription.textContent = data["about"];
+      closeModal(editProfileModal);
+      //setting default values of input fields to new ones
+      profileNameInput.value = data["name"];
+      profileDescriptionInput.value = data["about"];
+    })
+    .catch(console.error);
+
+  // currentProfileName.textContent = profileNameInput.value;
+  // currentProfileDescription.textContent = profileDescriptionInput.value;
+  // closeModal(editProfileModal);
 }
 
 editProfileForm.addEventListener("submit", handleProfileFormSubmit);
@@ -180,18 +174,11 @@ function closeModal(modal) {
 const cardTemplate = document
   .querySelector("#card-template")
   .content.querySelector(".card");
-const cardsContainer = document.querySelector(".cards__pics");
 
 //Selecting preview modal and its elements
 const previewModal = document.querySelector("#preview-image-modal");
 const previewImg = previewModal.querySelector(".modal__image");
 const previewCaption = previewModal.querySelector(".modal__preview-caption");
-
-//Looping through array of cards "initialCards" and populating container of cards
-// initialCards.forEach(function (card) {
-//   let cardToInsert = getCardElement(card);
-//   cardsContainer.prepend(cardToInsert);
-// });
 
 //Generating cards from the template
 function getCardElement(data) {
