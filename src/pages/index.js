@@ -37,7 +37,7 @@ api
     console.error(err);
   });
 
-// "Edit Profile" modal selections
+// "Edit Profile" modal elements
 const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(
@@ -53,6 +53,16 @@ const profileNameInput = editProfileModal.querySelector("#profile-name");
 const profileDescriptionInput = editProfileModal.querySelector(
   "#profile-description",
 );
+
+// "Edit Avatar" modal elements
+const editAvatarBtn = document.querySelector(".profile__avatar-btn");
+const editAvatarModal = document.querySelector("#edit-avatar-modal");
+const editAvatarCloseBtn = editAvatarModal.querySelector(".modal__close-button");
+const editAvatarForm = document.querySelector("#edit-avatar-form");
+const editAvatarSubmitButton = editAvatarModal.querySelector(
+  ".modal__save-button"
+);
+const editAvatarInput = editAvatarModal.querySelector("#edit-avatar-input");
 
 //edit profile modal close button functionality
 editProfileBtn.addEventListener("click", () => {
@@ -122,10 +132,6 @@ function handleProfileFormSubmit(evt) {
       profileDescriptionInput.value = data["about"];
     })
     .catch(console.error);
-
-  // currentProfileName.textContent = profileNameInput.value;
-  // currentProfileDescription.textContent = profileDescriptionInput.value;
-  // closeModal(editProfileModal);
 }
 
 editProfileForm.addEventListener("submit", handleProfileFormSubmit);
@@ -233,6 +239,32 @@ const previewCloseBtn = previewModal.querySelector(
 previewCloseBtn.addEventListener("click", () => {
   closeModal(previewModal);
 });
+
+// Edit Avatar opening, closing, and form submission handling
+editAvatarBtn.addEventListener("click", () => {
+  openModal(editAvatarModal);
+});
+
+editAvatarCloseBtn.addEventListener("click", () => {
+  closeModal(editAvatarModal);
+});
+
+function handleEditAvatarSubmit (evt) {
+  evt.preventDefault();
+
+  api
+    .editAvatar({
+      avatar: editAvatarInput.value,
+    })
+    .then((data) => {
+      currentPfp.src = data["avatar"];
+      closeModal(editAvatarModal);
+      editAvatarInput.value = "";
+    })
+    .catch(console.error);
+}
+
+editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
 
 //Closing any of the modals by clicking outside of the modal (area with darkened background)
 const modalList = document.querySelectorAll(".modal");
