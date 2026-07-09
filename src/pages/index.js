@@ -26,7 +26,7 @@ api
   .then(([cards, userInfo]) => {
     cards.forEach(function (card) {
       let cardToInsert = getCardElement(card);
-      cardsContainer.prepend(cardToInsert);
+      cardsContainer.append(cardToInsert);
     });
 
     currentProfileName.textContent = userInfo["name"];
@@ -57,12 +57,25 @@ const profileDescriptionInput = editProfileModal.querySelector(
 // "Edit Avatar" modal elements
 const editAvatarBtn = document.querySelector(".profile__avatar-btn");
 const editAvatarModal = document.querySelector("#edit-avatar-modal");
-const editAvatarCloseBtn = editAvatarModal.querySelector(".modal__close-button");
+const editAvatarCloseBtn = editAvatarModal.querySelector(
+  ".modal__close-button",
+);
 const editAvatarForm = document.querySelector("#edit-avatar-form");
 const editAvatarSubmitButton = editAvatarModal.querySelector(
-  ".modal__save-button"
+  ".modal__save-button",
 );
 const editAvatarInput = editAvatarModal.querySelector("#edit-avatar-input");
+
+// "Delete card" modal elements
+const deleteModal = document.querySelector("#delete-modal");
+const deleteModalCloseBtn = deleteModal.querySelector(".modal__close-button");
+const deleteModalForm = deleteModal.querySelector(".modal__form");
+const deleteModalDeleteBtn = deleteModalForm.querySelector(
+  ".modal__button_type_delete",
+);
+const deleteModalCancelBtn = deleteModalForm.querySelector(
+  ".modal__button_type_cancel",
+);
 
 //edit profile modal close button functionality
 editProfileBtn.addEventListener("click", () => {
@@ -144,22 +157,26 @@ const newPostSubmitButton = newPostForm.querySelector(".modal__save-button");
 function handleNewPostSubmit(evt) {
   evt.preventDefault();
 
-  //making object containing inputted values and inserting new object into
-  //getCardElement() function
-  let cardData = {
-    name: captionInput.value,
-    link: linkInput.value,
-  };
+  api
+    .addNewCard({
+      name: captionInput.value,
+      link: linkInput.value,
+    })
+    .then((data) => {
+      let cardToInsert = getCardElement(data);
+      cardsContainer.prepend(cardToInsert);
+      closeModal(newPostModal);
 
-  let cardToInsert = getCardElement(cardData);
-  cardsContainer.prepend(cardToInsert);
+      setTimeout(() => {
+        evt.target.reset();
+        disableButton(newPostSubmitButton, selectors);
+      }, 300);
+    })
+    .catch(console.error);
 
-  closeModal(newPostModal);
+  // let cardToInsert = getCardElement(cardData);
+  // cardsContainer.prepend(cardToInsert);
   //setting delay so user doesn't see resetting until modal is fully gone
-  setTimeout(() => {
-    evt.target.reset();
-    disableButton(newPostSubmitButton, selectors);
-  }, 300);
 }
 
 newPostForm.addEventListener("submit", handleNewPostSubmit);
@@ -191,10 +208,10 @@ function getCardElement(data) {
   //Selecting cloned card's image and caption and setting them
   const cardElement = cardTemplate.cloneNode(true);
   const cardImg = cardElement.querySelector(".card__image");
-  cardImg.src = data.link;
-  cardImg.alt = data.name;
+  cardImg.src = data["link"];
+  // cardImg.alt = data["name"];
   const cardTitle = cardElement.querySelector(".card__title");
-  cardTitle.textContent = data.name;
+  cardTitle.textContent = data["name"];
 
   cardImg.addEventListener("click", () => {
     previewImg.src = cardImg.src;
@@ -226,7 +243,8 @@ function getCardElement(data) {
   });
 
   cardBinIcon.addEventListener("click", () => {
-    cardElement.remove();
+    //cardElement.remove();
+    openModal(deleteModal);
   });
 
   return cardElement;
@@ -249,7 +267,7 @@ editAvatarCloseBtn.addEventListener("click", () => {
   closeModal(editAvatarModal);
 });
 
-function handleEditAvatarSubmit (evt) {
+function handleEditAvatarSubmit(evt) {
   evt.preventDefault();
 
   api
