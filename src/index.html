@@ -19,12 +19,20 @@
       </header>
       <main class="content">
         <div class="profile page__section">
-          <button class="profile__avatar-btn"></button>
-          <img
-            src="<%=require('./images/bessie.svg')%>"
-            alt="Portrait of Bessie Coleman"
-            class="profile__pfp"
-          />
+          <div class="profile__avatar-container">
+            <button class="profile__avatar-btn">
+              <img
+                src="<%=require('./images/pencil-light.svg')%>"
+                alt="Pencil Icon"
+                class="profile__pencil-icon"
+              />
+            </button>
+            <img
+              src="<%=require('./images/bessie.svg')%>"
+              alt="Portrait of Bessie Coleman"
+              class="profile__pfp"
+            />
+          </div>
           <div class="profile__column">
             <h1 class="profile__name"></h1>
             <p class="profile__description"></p>
