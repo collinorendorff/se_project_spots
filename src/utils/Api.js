@@ -88,4 +88,19 @@ export default class Api {
       Promise.reject(`Error: ${res.status}`);
     });
   }
+
+  handleLike(id, isLiked) {
+    const request = isLiked ? "DELETE" : "PUT";
+
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: request,
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      Promise.reject(`Error: ${res.status}`);
+    });
+  }
+
 }

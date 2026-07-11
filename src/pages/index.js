@@ -288,6 +288,14 @@ editAvatarCloseBtn.addEventListener("click", () => {
   closeModal(editAvatarModal);
 });
 
+deleteModalCloseBtn.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
+deleteModalCancelBtn.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
 function handleEditAvatarSubmit(evt) {
   evt.preventDefault();
 
