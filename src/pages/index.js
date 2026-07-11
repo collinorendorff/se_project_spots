@@ -37,6 +37,11 @@ api
     console.error(err);
   });
 
+//Selecting preview modal and its elements
+const previewModal = document.querySelector("#preview-image-modal");
+const previewImg = previewModal.querySelector(".modal__image");
+const previewCaption = previewModal.querySelector(".modal__preview-caption");
+
 // "Edit Profile" modal elements
 const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-profile-modal");
@@ -198,10 +203,27 @@ const cardTemplate = document
   .querySelector("#card-template")
   .content.querySelector(".card");
 
-//Selecting preview modal and its elements
-const previewModal = document.querySelector("#preview-image-modal");
-const previewImg = previewModal.querySelector(".modal__image");
-const previewCaption = previewModal.querySelector(".modal__preview-caption");
+let selectedCard;
+let selectedCardId;
+
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
+    .catch(console.error);
+}
+
+function handleDeleteCard(cardElement, cardId) {
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+  openModal(deleteModal);
+}
+
+deleteModalForm.addEventListener("submit", handleDeleteSubmit);
 
 //Generating cards from the template
 function getCardElement(data) {
@@ -242,10 +264,9 @@ function getCardElement(data) {
     cardBinIcon.src = binDefault;
   });
 
-  cardBinIcon.addEventListener("click", () => {
-    //cardElement.remove();
-    openModal(deleteModal);
-  });
+  cardBinIcon.addEventListener("click", (evt) =>
+    handleDeleteCard(cardElement, data._id),
+  );
 
   return cardElement;
 }
