@@ -225,6 +225,19 @@ function handleDeleteCard(cardElement, cardId) {
 
 deleteModalForm.addEventListener("submit", handleDeleteSubmit);
 
+function handleLike(evt, data) {
+  const isLiked = data.isLiked;
+  api
+    .changeLikeStatus(data._id, isLiked)
+    .then(() => {
+      evt.target.classList.toggle("card__heart-icon_liked");
+      evt.target.src = evt.target.classList.contains("card__heart-icon_liked")
+        ? heartLiked
+        : heartDefault;
+    })
+    .catch(console.error);
+}
+
 //Generating cards from the template
 function getCardElement(data) {
   //Selecting cloned card's image and caption and setting them
@@ -242,15 +255,18 @@ function getCardElement(data) {
     openModal(previewModal);
   });
 
-  //event listener to change heart button when clicked
+  // setting initial like state and adding event listener to change heart button when clicked
   const cardHeartIcon = cardElement.querySelector(".card__heart-icon");
-  cardHeartIcon.addEventListener("click", () => {
-    if (!cardHeartIcon.classList.contains("card__heart-icon_liked")) {
-      cardHeartIcon.src = heartLiked;
-    } else {
-      cardHeartIcon.src = heartDefault;
-    }
-    cardHeartIcon.classList.toggle("card__heart-icon_liked");
+
+  if (data.isLiked) {
+    cardHeartIcon.src = heartLiked;
+    cardHeartIcon.classList.add("card__heart-icon_liked");
+  } else {
+    cardHeartIcon.src = heartDefault;
+  }
+
+  cardHeartIcon.addEventListener("click", (evt) => {
+    handleLike(evt, data);
   });
 
   //event listeners for delete button: changing delete icon on hover and
@@ -264,7 +280,7 @@ function getCardElement(data) {
     cardBinIcon.src = binDefault;
   });
 
-  cardBinIcon.addEventListener("click", (evt) =>
+  cardBinIcon.addEventListener("click", () =>
     handleDeleteCard(cardElement, data._id),
   );
 

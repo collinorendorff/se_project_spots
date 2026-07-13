@@ -89,7 +89,7 @@ export default class Api {
     });
   }
 
-  handleLike(id, isLiked) {
+  changeLikeStatus(id, isLiked) {
     const request = isLiked ? "DELETE" : "PUT";
 
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
