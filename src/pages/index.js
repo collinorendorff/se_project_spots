@@ -4,6 +4,7 @@ import heartLiked from "../images/heart-liked.svg";
 import heartDefault from "../images/heart-default.svg";
 import binHovered from "../images/bin-hovered.svg";
 import binDefault from "../images/bin-default.svg";
+import { setButtonText } from "../utils/helpers.js";
 import Api from "../utils/Api.js";
 
 const cardsContainer = document.querySelector(".cards__pics");
@@ -41,6 +42,9 @@ api
 const previewModal = document.querySelector("#preview-image-modal");
 const previewImg = previewModal.querySelector(".modal__image");
 const previewCaption = previewModal.querySelector(".modal__preview-caption");
+const previewCloseBtn = previewModal.querySelector(
+  ".modal__close-button_type_preview"
+);
 
 // "Edit Profile" modal elements
 const editProfileBtn = document.querySelector(".profile__edit-button");
@@ -50,14 +54,19 @@ const editProfileCloseBtn = editProfileModal.querySelector(
 );
 const editProfileIcon = document.querySelector(".profile__edit-icon");
 const editProfileForm = document.querySelector("#edit-profile-form");
-const editProfileSubmitButton = editProfileForm.querySelector(
-  ".modal__save-button",
-);
 const editProfileErrorSpan = editProfileForm.querySelector("modal__error");
+
 const profileNameInput = editProfileModal.querySelector("#profile-name");
 const profileDescriptionInput = editProfileModal.querySelector(
   "#profile-description",
 );
+
+// "New Post" modal selections
+const newPostBtn = document.querySelector(".profile__plus-button");
+const newPostModal = document.querySelector("#new-post-modal");
+const newPostCloseBtn = newPostModal.querySelector(".modal__close-button");
+const newPostForm = document.querySelector("#new-post-form");
+const newPostSubmitButton = newPostForm.querySelector(".modal__button");
 
 // "Edit Avatar" modal elements
 const editAvatarBtn = document.querySelector(".profile__avatar-btn");
@@ -67,7 +76,7 @@ const editAvatarCloseBtn = editAvatarModal.querySelector(
 );
 const editAvatarForm = document.querySelector("#edit-avatar-form");
 const editAvatarSubmitButton = editAvatarModal.querySelector(
-  ".modal__save-button",
+  ".modal__button",
 );
 const editAvatarInput = editAvatarModal.querySelector("#edit-avatar-input");
 
@@ -84,6 +93,7 @@ const deleteModalCancelBtn = deleteModalForm.querySelector(
 
 //edit profile modal close button functionality
 editProfileBtn.addEventListener("click", () => {
+  resetEditFormFields();
   openModal(editProfileModal);
   //function below is declared in validation.js; this is put to ensure button is enabled
   //upon opening (since validation file is loaded in before this .js file)
@@ -91,8 +101,8 @@ editProfileBtn.addEventListener("click", () => {
   //hideInputError() declared in validation.js
   //these calls are used to get rid of error messages from prior non-submitted inputs since
   //values of these input fields are reset to match current profile upon closing with "X"
-  hideInputError(editProfileForm, profileNameInput, selectors);
-  hideInputError(editProfileForm, profileDescriptionInput, selectors);
+  // hideInputError(editProfileForm, profileNameInput, selectors);
+  // hideInputError(editProfileForm, profileDescriptionInput, selectors);
 });
 
 editProfileCloseBtn.addEventListener("click", () => {
@@ -105,11 +115,6 @@ editProfileCloseBtn.addEventListener("click", () => {
 });
 
 /*------------------------------------------------*/
-// "New Post" modal selections and class editing
-const newPostBtn = document.querySelector(".profile__plus-button");
-const newPostModal = document.querySelector("#new-post-modal");
-const newPostCloseBtn = newPostModal.querySelector(".modal__close-button");
-const newPostForm = document.querySelector("#new-post-form");
 
 newPostBtn.addEventListener("click", () => {
   openModal(newPostModal);
@@ -118,24 +123,38 @@ newPostBtn.addEventListener("click", () => {
 newPostCloseBtn.addEventListener("click", () => {
   closeModal(newPostModal);
 });
+
 /*------------------------------------------------*/
 //Filling form modals when opening "edit profile" modal
-//Selecting text content currently in profile
-// const currentProfileName = document.querySelector(".profile__name");
-// const currentProfileDescription = document.querySelector(
-//   ".profile__description",
-// );
 //Setting value of input fields
 function resetEditFormFields() {
   profileNameInput.value = currentProfileName.textContent;
   profileDescriptionInput.value = currentProfileDescription.textContent;
 }
 resetEditFormFields();
+
+// Functions for changing visibility (opening/closing) of modals above
+function openModal(modal) {
+  modal.classList.add("modal_is-opened");
+  // Callback function in this listener allows user to close current modal with Esc
+  window.addEventListener("keydown", escapeToClose);
+}
+
+function closeModal(modal) {
+  modal.classList.remove("modal_is-opened");
+  window.removeEventListener("keydown", escapeToClose);
+}
+
 /*------------------------------------------------*/
-//Edit Profile Form submission
+// All form submission handler functions
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+
+  // Changing text to "Saving..." while fetching is being done
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, true);
+
   api
     .editUserInfo({
       name: profileNameInput.value,
@@ -149,18 +168,24 @@ function handleProfileFormSubmit(evt) {
       profileNameInput.value = data["name"];
       profileDescriptionInput.value = data["about"];
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      // Changing text content of button back to "Save" now that fetching is done
+      setButtonText(submitBtn, false);
+    });
 }
 
 editProfileForm.addEventListener("submit", handleProfileFormSubmit);
-/*------------------------------------------------*/
-//New Post form submission
+
+
 const linkInput = newPostForm.querySelector("#image-link");
 const captionInput = newPostForm.querySelector("#caption-input");
-const newPostSubmitButton = newPostForm.querySelector(".modal__save-button");
 
 function handleNewPostSubmit(evt) {
   evt.preventDefault();
+
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, true);
 
   api
     .addNewCard({
@@ -175,46 +200,58 @@ function handleNewPostSubmit(evt) {
       setTimeout(() => {
         evt.target.reset();
         disableButton(newPostSubmitButton, selectors);
-      }, 300);
+      }, 300); //setting delay so user doesn't see resetting until modal is fully gone
     })
-    .catch(console.error);
-
-  // let cardToInsert = getCardElement(cardData);
-  // cardsContainer.prepend(cardToInsert);
-  //setting delay so user doesn't see resetting until modal is fully gone
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitBtn, false);
+    });
 }
 
 newPostForm.addEventListener("submit", handleNewPostSubmit);
 
-//functions for changing visibility (opening/closing) of modals above
-function openModal(modal) {
-  modal.classList.add("modal_is-opened");
-  //callback function in this listener allows user to close current modal with Esc
-  window.addEventListener("keydown", escapeToClose);
+function handleEditAvatarSubmit(evt) {
+  evt.preventDefault();
+
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, true);
+
+  api
+    .editAvatar({
+      avatar: editAvatarInput.value,
+    })
+    .then((data) => {
+      currentPfp.src = data["avatar"];
+      closeModal(editAvatarModal);
+      editAvatarInput.value = "";
+    })
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitBtn, false);
+    });
 }
 
-function closeModal(modal) {
-  modal.classList.remove("modal_is-opened");
-  window.removeEventListener("keydown", escapeToClose);
-}
-
-//Selecting the card template and cards container
-const cardTemplate = document
-  .querySelector("#card-template")
-  .content.querySelector(".card");
+editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
 
 let selectedCard;
 let selectedCardId;
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, true, "Delete", "Deleting...");
+
   api
     .deleteCard(selectedCardId)
     .then(() => {
       selectedCard.remove();
       closeModal(deleteModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitBtn, false, "Delete", "Deleting...");
+    });
 }
 
 function handleDeleteCard(cardElement, cardId) {
@@ -237,6 +274,11 @@ function handleLike(evt, data) {
     })
     .catch(console.error);
 }
+
+//Selecting the card template and cards container
+const cardTemplate = document
+  .querySelector("#card-template")
+  .content.querySelector(".card");
 
 //Generating cards from the template
 function getCardElement(data) {
@@ -287,10 +329,8 @@ function getCardElement(data) {
   return cardElement;
 }
 
-//Adding event listener to close button on preview modal
-const previewCloseBtn = previewModal.querySelector(
-  ".modal__close-button_type_preview",
-);
+//Adding event listeners for opening/closing modals
+
 previewCloseBtn.addEventListener("click", () => {
   closeModal(previewModal);
 });
@@ -311,23 +351,6 @@ deleteModalCloseBtn.addEventListener("click", () => {
 deleteModalCancelBtn.addEventListener("click", () => {
   closeModal(deleteModal);
 });
-
-function handleEditAvatarSubmit(evt) {
-  evt.preventDefault();
-
-  api
-    .editAvatar({
-      avatar: editAvatarInput.value,
-    })
-    .then((data) => {
-      currentPfp.src = data["avatar"];
-      closeModal(editAvatarModal);
-      editAvatarInput.value = "";
-    })
-    .catch(console.error);
-}
-
-editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
 
 //Closing any of the modals by clicking outside of the modal (area with darkened background)
 const modalList = document.querySelectorAll(".modal");
