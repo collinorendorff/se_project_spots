@@ -95,14 +95,6 @@ const deleteModalCancelBtn = deleteModalForm.querySelector(
 editProfileBtn.addEventListener("click", () => {
   resetEditFormFields();
   openModal(editProfileModal);
-  //function below is declared in validation.js; this is put to ensure button is enabled
-  //upon opening (since validation file is loaded in before this .js file)
-  // // enableButton(editProfileSubmitButton, selectors);
-  //hideInputError() declared in validation.js
-  //these calls are used to get rid of error messages from prior non-submitted inputs since
-  //values of these input fields are reset to match current profile upon closing with "X"
-  // hideInputError(editProfileForm, profileNameInput, selectors);
-  // hideInputError(editProfileForm, profileDescriptionInput, selectors);
 });
 
 editProfileCloseBtn.addEventListener("click", () => {
