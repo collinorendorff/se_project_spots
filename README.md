@@ -3,17 +3,17 @@
 
 ## Overview  
 
-"Spots" is an editable profile page containing a user's picture, name, description, and a collection of posts.
+Spots is an interactive post-sharing webpage built for a fictional user, allowing them to edit profile information, add new posts, like them, delete them, etc.; all of these changes persist through page reloads using API requests connected to a remote database.
+
 
 
 ## Features
 
-* JavaScript form validation
 * Responsive grid design for smaller computers, tablets, and smartphones
-* Flexbox and grid area positioning
-* 2 form modals and a modal for previewing images
-* Flat BEM file structure
-* Buttons for opening forms and accordingly "submitting" cards to be displayed in card grid
+* Modular & asynchronous JS via API requests
+* Several modals for changing data displayed on page, persisting on page reload
+* Ability to change fictional user's name, description, and profile picture
+* Ability to "like" or delete user posts
 
 
 ## Relevant pictures of project features:
@@ -31,6 +31,6 @@
 
 https://collinorendorff.github.io/se_project_spots
 
-## Stage 2 Video Link:
+## Video Link:
 
-https://drive.google.com/file/d/1OAw9bqzUXQNnDgVzEJScn_bQVSsbjJf5/view?usp=sharing
+Feel free to take a look at [this video](https://drive.google.com/file/d/13uLUCiyevsOZTQ4wrplUVgQgNmLTLntB/view?usp=sharing), where I describe my project and some challenges I faced while building it.

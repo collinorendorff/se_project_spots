@@ -1,43 +1,56 @@
 import "./index.css";
-import { enableValidation, selectors } from "../scripts/validation.js";
+import {
+  disableButton,
+  enableValidation,
+  selectors,
+} from "../scripts/validation.js";
 import heartLiked from "../images/heart-liked.svg";
 import heartDefault from "../images/heart-default.svg";
 import binHovered from "../images/bin-hovered.svg";
 import binDefault from "../images/bin-default.svg";
+import { setButtonText, handleSubmit } from "../utils/helpers.js";
+import Api from "../utils/Api.js";
 
-//Array for storing "card" objects and their data
-const initialCards = [
-  {
-    name: "Val Thorens",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
-  },
-  {
-    name: "Restaurant terrace",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
-  },
-  {
-    name: "An outdoor cafe",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
-  },
-  {
-    name: "A very long bridge, over the forest and through the trees",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
-  },
-  {
-    name: "Tunnel with morning light",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
-  },
-  {
-    name: "Mountain house",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
-  },
-  {
-    name: "Golden Gate Bridge",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
-  },
-];
+const cardsContainer = document.querySelector(".cards__pics");
+const currentProfileName = document.querySelector(".profile__name");
+const currentProfileDescription = document.querySelector(
+  ".profile__description",
+);
+const currentPfp = document.querySelector(".profile__pfp");
 
-// "Edit Profile" modal selections
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "bce9eff9-056a-4a65-8f13-41f8749fd43e",
+    "Content-Type": "application/json",
+  },
+});
+
+api
+  .getAppInfo()
+  .then(([cards, userInfo]) => {
+    cards.forEach(function (card) {
+      let cardToInsert = getCardElement(card);
+      cardsContainer.append(cardToInsert);
+    });
+
+    currentProfileName.textContent = userInfo["name"];
+    currentProfileDescription.textContent = userInfo["about"];
+    currentPfp.src = userInfo["avatar"];
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+//Selecting preview modal and its elements
+const previewModal = document.querySelector("#preview-image-modal");
+const previewImg = previewModal.querySelector(".modal__image");
+const previewCaption = previewModal.querySelector(".modal__preview-caption");
+const previewCloseBtn = previewModal.querySelector(
+  ".modal__close-button_type_preview",
+);
+
+// "Edit Profile" modal elements
 const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-profile-modal");
 const editProfileCloseBtn = editProfileModal.querySelector(
@@ -45,43 +58,52 @@ const editProfileCloseBtn = editProfileModal.querySelector(
 );
 const editProfileIcon = document.querySelector(".profile__edit-icon");
 const editProfileForm = document.querySelector("#edit-profile-form");
-const editProfileSubmitButton = editProfileForm.querySelector(
-  ".modal__save-button",
-);
 const editProfileErrorSpan = editProfileForm.querySelector("modal__error");
+
 const profileNameInput = editProfileModal.querySelector("#profile-name");
 const profileDescriptionInput = editProfileModal.querySelector(
   "#profile-description",
 );
 
-//edit profile modal close button functionality
-editProfileBtn.addEventListener("click", () => {
-  openModal(editProfileModal);
-  //function below is declared in validation.js; this is put to ensure button is enabled
-  //upon opening (since validation file is loaded in before this .js file)
-  enableButton(editProfileSubmitButton, selectors);
-  //hideInputError() declared in validation.js
-  //these calls are used to get rid of error messages from prior non-submitted inputs since
-  //values of these input fields are reset to match current profile upon closing with "X"
-  hideInputError(editProfileForm, profileNameInput, selectors);
-  hideInputError(editProfileForm, profileDescriptionInput, selectors);
-});
-
-editProfileCloseBtn.addEventListener("click", () => {
-  closeModal(editProfileModal);
-  //these 2 lines ensure changes to fields aren't saved if X is pressed
-  //setting delay so user doesn't see field resetting until modal is fully gone
-  setTimeout(() => {
-    resetEditFormFields();
-  }, 300);
-});
-
-/*------------------------------------------------*/
-// "New Post" modal selections and class editing
+// "New Post" modal selections
 const newPostBtn = document.querySelector(".profile__plus-button");
 const newPostModal = document.querySelector("#new-post-modal");
 const newPostCloseBtn = newPostModal.querySelector(".modal__close-button");
 const newPostForm = document.querySelector("#new-post-form");
+const newPostSubmitButton = newPostForm.querySelector(".modal__button");
+
+// "Edit Avatar" modal elements
+const editAvatarBtn = document.querySelector(".profile__avatar-btn");
+const editAvatarModal = document.querySelector("#edit-avatar-modal");
+const editAvatarCloseBtn = editAvatarModal.querySelector(
+  ".modal__close-button",
+);
+const editAvatarForm = document.querySelector("#edit-avatar-form");
+const editAvatarSubmitButton = editAvatarModal.querySelector(".modal__button");
+const editAvatarInput = editAvatarModal.querySelector("#edit-avatar-input");
+
+// "Delete card" modal elements
+const deleteModal = document.querySelector("#delete-modal");
+const deleteModalCloseBtn = deleteModal.querySelector(".modal__close-button");
+const deleteModalForm = deleteModal.querySelector(".modal__form");
+const deleteModalDeleteBtn = deleteModalForm.querySelector(
+  ".modal__button_type_delete",
+);
+const deleteModalCancelBtn = deleteModalForm.querySelector(
+  ".modal__button_type_cancel",
+);
+
+//edit profile modal close button functionality
+editProfileBtn.addEventListener("click", () => {
+  resetEditFormFields();
+  openModal(editProfileModal);
+});
+
+editProfileCloseBtn.addEventListener("click", () => {
+  closeModal(editProfileModal);
+});
+
+/*------------------------------------------------*/
 
 newPostBtn.addEventListener("click", () => {
   openModal(newPostModal);
@@ -90,63 +112,19 @@ newPostBtn.addEventListener("click", () => {
 newPostCloseBtn.addEventListener("click", () => {
   closeModal(newPostModal);
 });
+
 /*------------------------------------------------*/
 //Filling form modals when opening "edit profile" modal
-//Selecting text content currently in profile
-const currentProfileName = document.querySelector(".profile__name");
-const currentProfileDescription = document.querySelector(
-  ".profile__description",
-);
 //Setting value of input fields
 function resetEditFormFields() {
   profileNameInput.value = currentProfileName.textContent;
   profileDescriptionInput.value = currentProfileDescription.textContent;
 }
-resetEditFormFields();
-/*------------------------------------------------*/
-//Edit Profile Form submission
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  currentProfileName.textContent = profileNameInput.value;
-  currentProfileDescription.textContent = profileDescriptionInput.value;
-  closeModal(editProfileModal);
-}
-
-editProfileForm.addEventListener("submit", handleProfileFormSubmit);
-/*------------------------------------------------*/
-//New Post form submission
-const linkInput = newPostForm.querySelector("#image-link");
-const captionInput = newPostForm.querySelector("#caption-input");
-const newPostSubmitButton = newPostForm.querySelector(".modal__save-button");
-
-function handleNewPostSubmit(evt) {
-  evt.preventDefault();
-
-  //making object containing inputted values and inserting new object into
-  //getCardElement() function
-  let cardData = {
-    name: captionInput.value,
-    link: linkInput.value,
-  };
-
-  let cardToInsert = getCardElement(cardData);
-  cardsContainer.prepend(cardToInsert);
-
-  closeModal(newPostModal);
-  //setting delay so user doesn't see resetting until modal is fully gone
-  setTimeout(() => {
-    evt.target.reset();
-    disableButton(newPostSubmitButton, selectors);
-  }, 300);
-}
-
-newPostForm.addEventListener("submit", handleNewPostSubmit);
-
-//functions for changing visibility (opening/closing) of modals above
+// Functions for changing visibility (opening/closing) of modals above
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
-  //callback function in this listener allows user to close current modal with Esc
+  // Callback function in this listener allows user to close current modal with Esc
   window.addEventListener("keydown", escapeToClose);
 }
 
@@ -155,32 +133,122 @@ function closeModal(modal) {
   window.removeEventListener("keydown", escapeToClose);
 }
 
+/*------------------------------------------------*/
+// All form submission handler functions
+
+function handleProfileFormSubmit(evt) {
+  function makeRequest() {
+    return api
+      .editUserInfo({
+        name: profileNameInput.value,
+        about: profileDescriptionInput.value,
+      })
+      .then((data) => {
+        currentProfileName.textContent = data["name"];
+        currentProfileDescription.textContent = data["about"];
+        closeModal(editProfileModal);
+        //setting default values of input fields to new ones
+        profileNameInput.value = data["name"];
+        profileDescriptionInput.value = data["about"];
+      });
+  }
+
+  handleSubmit(makeRequest, evt);
+}
+
+editProfileForm.addEventListener("submit", handleProfileFormSubmit);
+
+const linkInput = newPostForm.querySelector("#image-link");
+const captionInput = newPostForm.querySelector("#caption-input");
+
+function handleNewPostSubmit(evt) {
+  function makeRequest() {
+    return api
+      .addNewCard({ name: captionInput.value, link: linkInput.value })
+      .then((data) => {
+        let cardToInsert = getCardElement(data);
+        cardsContainer.prepend(cardToInsert);
+        closeModal(newPostModal);
+
+        disableButton(newPostSubmitButton, selectors);
+      });
+  }
+
+  handleSubmit(makeRequest, evt);
+}
+
+newPostForm.addEventListener("submit", handleNewPostSubmit);
+
+function handleEditAvatarSubmit(evt) {
+  function makeRequest() {
+    return api.editAvatar({ avatar: editAvatarInput.value }).then((data) => {
+      currentPfp.src = data["avatar"];
+      closeModal(editAvatarModal);
+      editAvatarInput.value = "";
+    });
+  }
+
+  handleSubmit(makeRequest, evt);
+}
+
+editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
+
+let selectedCard;
+let selectedCardId;
+
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+
+  const submitBtn = evt.submitter;
+  setButtonText(true, submitBtn, "Delete", "Deleting...");
+
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(false, submitBtn, "Delete", "Deleting...");
+    });
+}
+
+function handleDeleteCard(cardElement, cardId) {
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+  openModal(deleteModal);
+}
+
+deleteModalForm.addEventListener("submit", handleDeleteSubmit);
+
+function handleLike(evt, data) {
+  const isLiked = data.isLiked;
+  api
+    .changeLikeStatus(data._id, isLiked)
+    .then(() => {
+      evt.target.classList.toggle("card__heart-icon_liked");
+      evt.target.src = evt.target.classList.contains("card__heart-icon_liked")
+        ? heartLiked
+        : heartDefault;
+    })
+    .catch(console.error);
+}
+
 //Selecting the card template and cards container
 const cardTemplate = document
   .querySelector("#card-template")
   .content.querySelector(".card");
-const cardsContainer = document.querySelector(".cards__pics");
-
-//Selecting preview modal and its elements
-const previewModal = document.querySelector("#preview-image-modal");
-const previewImg = previewModal.querySelector(".modal__image");
-const previewCaption = previewModal.querySelector(".modal__preview-caption");
-
-//Looping through array of cards "initialCards" and populating container of cards
-initialCards.forEach(function (card) {
-  let cardToInsert = getCardElement(card);
-  cardsContainer.prepend(cardToInsert);
-});
 
 //Generating cards from the template
 function getCardElement(data) {
   //Selecting cloned card's image and caption and setting them
   const cardElement = cardTemplate.cloneNode(true);
   const cardImg = cardElement.querySelector(".card__image");
-  cardImg.src = data.link;
-  cardImg.alt = data.name;
+  cardImg.src = data["link"];
+  // cardImg.alt = data["name"];
   const cardTitle = cardElement.querySelector(".card__title");
-  cardTitle.textContent = data.name;
+  cardTitle.textContent = data["name"];
 
   cardImg.addEventListener("click", () => {
     previewImg.src = cardImg.src;
@@ -189,15 +257,18 @@ function getCardElement(data) {
     openModal(previewModal);
   });
 
-  //event listener to change heart button when clicked
+  // setting initial like state and adding event listener to change heart button when clicked
   const cardHeartIcon = cardElement.querySelector(".card__heart-icon");
-  cardHeartIcon.addEventListener("click", () => {
-    if (!cardHeartIcon.classList.contains("card__heart-icon_liked")) {
-      cardHeartIcon.src = heartLiked;
-    } else {
-      cardHeartIcon.src = heartDefault;
-    }
-    cardHeartIcon.classList.toggle("card__heart-icon_liked");
+
+  if (data.isLiked) {
+    cardHeartIcon.src = heartLiked;
+    cardHeartIcon.classList.add("card__heart-icon_liked");
+  } else {
+    cardHeartIcon.src = heartDefault;
+  }
+
+  cardHeartIcon.addEventListener("click", (evt) => {
+    handleLike(evt, data);
   });
 
   //event listeners for delete button: changing delete icon on hover and
@@ -212,18 +283,32 @@ function getCardElement(data) {
   });
 
   cardBinIcon.addEventListener("click", () => {
-    cardElement.remove();
+    handleDeleteCard(cardElement, data._id);
   });
 
   return cardElement;
 }
 
-//Adding event listener to close button on preview modal
-const previewCloseBtn = previewModal.querySelector(
-  ".modal__close-button_type_preview",
-);
+//Adding event listeners for opening/closing modals
+
 previewCloseBtn.addEventListener("click", () => {
   closeModal(previewModal);
+});
+
+editAvatarBtn.addEventListener("click", () => {
+  openModal(editAvatarModal);
+});
+
+editAvatarCloseBtn.addEventListener("click", () => {
+  closeModal(editAvatarModal);
+});
+
+deleteModalCloseBtn.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
+deleteModalCancelBtn.addEventListener("click", () => {
+  closeModal(deleteModal);
 });
 
 //Closing any of the modals by clicking outside of the modal (area with darkened background)
@@ -231,11 +316,6 @@ const modalList = document.querySelectorAll(".modal");
 modalList.forEach((modal) => {
   modal.addEventListener("click", (evt) => {
     if (evt.target.classList.contains("modal")) closeModal(modal);
-    if (evt.target.id === "edit-profile-modal") {
-      setTimeout(() => {
-        resetEditFormFields();
-      }, 300);
-    }
   });
 });
 
@@ -246,11 +326,6 @@ function escapeToClose(evt) {
   const currentOpenModal = document.querySelector(".modal_is-opened");
   if (evt.keyCode === 27) {
     closeModal(currentOpenModal);
-    if (currentOpenModal.id === "edit-profile-modal") {
-      setTimeout(() => {
-        resetEditFormFields();
-      }, 300);
-    }
   }
 }
 
