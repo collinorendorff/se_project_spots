@@ -1,5 +1,5 @@
 import "./index.css";
-import { enableValidation, selectors } from "../scripts/validation.js";
+import { disableButton, enableValidation, selectors } from "../scripts/validation.js";
 import heartLiked from "../images/heart-liked.svg";
 import heartDefault from "../images/heart-default.svg";
 import binHovered from "../images/bin-hovered.svg";
@@ -99,11 +99,6 @@ editProfileBtn.addEventListener("click", () => {
 
 editProfileCloseBtn.addEventListener("click", () => {
   closeModal(editProfileModal);
-  //these 2 lines ensure changes to fields aren't saved if X is pressed
-  //setting delay so user doesn't see field resetting until modal is fully gone
-  setTimeout(() => {
-    resetEditFormFields();
-  }, 300);
 });
 
 /*------------------------------------------------*/
@@ -123,7 +118,6 @@ function resetEditFormFields() {
   profileNameInput.value = currentProfileName.textContent;
   profileDescriptionInput.value = currentProfileDescription.textContent;
 }
-resetEditFormFields();
 
 // Functions for changing visibility (opening/closing) of modals above
 function openModal(modal) {
@@ -348,11 +342,6 @@ const modalList = document.querySelectorAll(".modal");
 modalList.forEach((modal) => {
   modal.addEventListener("click", (evt) => {
     if (evt.target.classList.contains("modal")) closeModal(modal);
-    if (evt.target.id === "edit-profile-modal") {
-      setTimeout(() => {
-        resetEditFormFields();
-      }, 300);
-    }
   });
 });
 
@@ -363,11 +352,7 @@ function escapeToClose(evt) {
   const currentOpenModal = document.querySelector(".modal_is-opened");
   if (evt.keyCode === 27) {
     closeModal(currentOpenModal);
-    if (currentOpenModal.id === "edit-profile-modal") {
-      setTimeout(() => {
-        resetEditFormFields();
-      }, 300);
-    }
   }
 }
 
+enableValidation(selectors);

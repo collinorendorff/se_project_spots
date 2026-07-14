@@ -3,8 +3,8 @@
 export const selectors = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
-  submitButtonSelector: ".modal__save-button",
-  inactiveButtonClass: "modal__save-button_disabled",
+  submitButtonSelector: ".modal__button",
+  inactiveButtonClass: "modal__button_disabled",
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible"
 }
@@ -45,7 +45,7 @@ function hasInvalidInput(inputList) {
 }
 
 //wrote below enable and disable functions so that they can also be reused in index.js
-function disableButton(buttonElement, selectors) {
+export function disableButton(buttonElement, selectors) {
     buttonElement.disabled = true;
     buttonElement.classList.add(selectors.inactiveButtonClass);
 }
