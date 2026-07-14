@@ -1,10 +1,14 @@
 import "./index.css";
-import { disableButton, enableValidation, selectors } from "../scripts/validation.js";
+import {
+  disableButton,
+  enableValidation,
+  selectors,
+} from "../scripts/validation.js";
 import heartLiked from "../images/heart-liked.svg";
 import heartDefault from "../images/heart-default.svg";
 import binHovered from "../images/bin-hovered.svg";
 import binDefault from "../images/bin-default.svg";
-import { setButtonText } from "../utils/helpers.js";
+import { setButtonText, handleSubmit } from "../utils/helpers.js";
 import Api from "../utils/Api.js";
 
 const cardsContainer = document.querySelector(".cards__pics");
@@ -43,7 +47,7 @@ const previewModal = document.querySelector("#preview-image-modal");
 const previewImg = previewModal.querySelector(".modal__image");
 const previewCaption = previewModal.querySelector(".modal__preview-caption");
 const previewCloseBtn = previewModal.querySelector(
-  ".modal__close-button_type_preview"
+  ".modal__close-button_type_preview",
 );
 
 // "Edit Profile" modal elements
@@ -75,9 +79,7 @@ const editAvatarCloseBtn = editAvatarModal.querySelector(
   ".modal__close-button",
 );
 const editAvatarForm = document.querySelector("#edit-avatar-form");
-const editAvatarSubmitButton = editAvatarModal.querySelector(
-  ".modal__button",
-);
+const editAvatarSubmitButton = editAvatarModal.querySelector(".modal__button");
 const editAvatarInput = editAvatarModal.querySelector("#edit-avatar-input");
 
 // "Delete card" modal elements
@@ -135,86 +137,58 @@ function closeModal(modal) {
 // All form submission handler functions
 
 function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
+  function makeRequest() {
+    return api
+      .editUserInfo({
+        name: profileNameInput.value,
+        about: profileDescriptionInput.value,
+      })
+      .then((data) => {
+        currentProfileName.textContent = data["name"];
+        currentProfileDescription.textContent = data["about"];
+        closeModal(editProfileModal);
+        //setting default values of input fields to new ones
+        profileNameInput.value = data["name"];
+        profileDescriptionInput.value = data["about"];
+      });
+  }
 
-  // Changing text to "Saving..." while fetching is being done
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-
-  api
-    .editUserInfo({
-      name: profileNameInput.value,
-      about: profileDescriptionInput.value,
-    })
-    .then((data) => {
-      currentProfileName.textContent = data["name"];
-      currentProfileDescription.textContent = data["about"];
-      closeModal(editProfileModal);
-      //setting default values of input fields to new ones
-      profileNameInput.value = data["name"];
-      profileDescriptionInput.value = data["about"];
-    })
-    .catch(console.error)
-    .finally(() => {
-      // Changing text content of button back to "Save" now that fetching is done
-      setButtonText(submitBtn, false);
-    });
+  handleSubmit(makeRequest, evt);
 }
 
 editProfileForm.addEventListener("submit", handleProfileFormSubmit);
-
 
 const linkInput = newPostForm.querySelector("#image-link");
 const captionInput = newPostForm.querySelector("#caption-input");
 
 function handleNewPostSubmit(evt) {
-  evt.preventDefault();
+  function makeRequest() {
+    return api
+      .addNewCard({ name: captionInput.value, link: linkInput.value })
+      .then((data) => {
+        let cardToInsert = getCardElement(data);
+        cardsContainer.prepend(cardToInsert);
+        closeModal(newPostModal);
 
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-
-  api
-    .addNewCard({
-      name: captionInput.value,
-      link: linkInput.value,
-    })
-    .then((data) => {
-      let cardToInsert = getCardElement(data);
-      cardsContainer.prepend(cardToInsert);
-      closeModal(newPostModal);
-
-      setTimeout(() => {
-        evt.target.reset();
         disableButton(newPostSubmitButton, selectors);
-      }, 300); //setting delay so user doesn't see resetting until modal is fully gone
-    })
-    .catch(console.error)
-    .finally(() => {
-      setButtonText(submitBtn, false);
-    });
+      });
+  }
+
+  handleSubmit(makeRequest, evt);
 }
 
 newPostForm.addEventListener("submit", handleNewPostSubmit);
 
 function handleEditAvatarSubmit(evt) {
-  evt.preventDefault();
-
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-
-  api
-    .editAvatar({
-      avatar: editAvatarInput.value,
-    })
-    .then((data) => {
+  function makeRequest() {
+    return api.editAvatar({ avatar: editAvatarInput.value }).then((data) => {
       currentPfp.src = data["avatar"];
       closeModal(editAvatarModal);
       editAvatarInput.value = "";
-    })
-    .catch(console.error)
-    .finally(() => {
-      setButtonText(submitBtn, false);
     });
+  }
+
+  handleSubmit(makeRequest, evt);
 }
 
 editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
@@ -226,7 +200,7 @@ function handleDeleteSubmit(evt) {
   evt.preventDefault();
 
   const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true, "Delete", "Deleting...");
+  setButtonText(true, submitBtn, "Delete", "Deleting...");
 
   api
     .deleteCard(selectedCardId)
@@ -236,7 +210,7 @@ function handleDeleteSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      setButtonText(submitBtn, false, "Delete", "Deleting...");
+      setButtonText(false, submitBtn, "Delete", "Deleting...");
     });
 }
 
@@ -308,9 +282,9 @@ function getCardElement(data) {
     cardBinIcon.src = binDefault;
   });
 
-  cardBinIcon.addEventListener("click", () =>
-    handleDeleteCard(cardElement, data._id),
-  );
+  cardBinIcon.addEventListener("click", () => {
+    handleDeleteCard(cardElement, data._id);
+  });
 
   return cardElement;
 }
