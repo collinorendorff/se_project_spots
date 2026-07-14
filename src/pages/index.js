@@ -1,5 +1,5 @@
 import "./index.css";
-// import { enableValidation, selectors } from "../scripts/validation.js";
+import { enableValidation, selectors } from "../scripts/validation.js";
 import heartLiked from "../images/heart-liked.svg";
 import heartDefault from "../images/heart-default.svg";
 import binHovered from "../images/bin-hovered.svg";
